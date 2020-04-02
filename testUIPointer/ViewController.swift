@@ -10,9 +10,29 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var liftButton: UIButton!
+    @IBOutlet weak var highlightButton: UIButton!
+    @IBOutlet weak var hoverButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        liftButton.pointerStyleProvider = liftProvider
+        hoverButton.pointerStyleProvider = hoverProvider
+        highlightButton.pointerStyleProvider = highlightProvider
+    }
+
+    func liftProvider(button: UIButton, effect: UIPointerEffect, shape: UIPointerShape) -> UIPointerStyle? {
+        let style = UIPointerStyle(effect: .lift(.init(view: button)))
+        return style
+    }
+    func highlightProvider(button: UIButton, effect: UIPointerEffect, shape: UIPointerShape) -> UIPointerStyle? {
+        let style = UIPointerStyle(effect: .highlight(.init(view: button)))
+        return style
+    }
+    func hoverProvider(button: UIButton, effect: UIPointerEffect, shape: UIPointerShape) -> UIPointerStyle? {
+        let style = UIPointerStyle(effect: .hover(.init(view: button), preferredTintMode: .overlay, prefersShadow: true, prefersScaledContent: true))
+        return style
     }
 
 
