@@ -17,11 +17,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        liftButton.pointerStyleProvider = liftProvider
-        hoverButton.pointerStyleProvider = hoverProvider
-        highlightButton.pointerStyleProvider = highlightProvider
+        if #available(macCatalyst 13.4, *) {
+            liftButton.pointerStyleProvider = liftProvider
+            hoverButton.pointerStyleProvider = hoverProvider
+            highlightButton.pointerStyleProvider = highlightProvider
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
+}
+
+@available(macCatalyst 13.4, *)
+extension ViewController {
     func liftProvider(button: UIButton, effect: UIPointerEffect, shape: UIPointerShape) -> UIPointerStyle? {
         let style = UIPointerStyle(effect: .lift(.init(view: button)))
         return style
@@ -34,7 +42,5 @@ class ViewController: UIViewController {
         let style = UIPointerStyle(effect: .hover(.init(view: button), preferredTintMode: .overlay, prefersShadow: true, prefersScaledContent: true))
         return style
     }
-
-
 }
 
