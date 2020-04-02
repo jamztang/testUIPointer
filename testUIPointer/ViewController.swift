@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var hoverButton: UIButton!
     @IBOutlet weak var horizontalBeamButton: UIButton!
     @IBOutlet weak var verticalBeamButton: UIButton!
+    @IBOutlet weak var textView: UITextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,9 @@ class ViewController: UIViewController {
             highlightButton.pointerStyleProvider = highlightProvider
             verticalBeamButton.pointerStyleProvider = verticalBeamProvider
             horizontalBeamButton.pointerStyleProvider = horizontalBeamProvider
+
+            let pointerInteraction = UIPointerInteraction(delegate: self)
+            textView.addInteraction(pointerInteraction)
         } else {
             // Fallback on earlier versions
         }
@@ -33,7 +37,7 @@ class ViewController: UIViewController {
 }
 
 @available(macCatalyst 13.4, iOS 13.4, *)
-extension ViewController {
+extension ViewController: UIPointerInteractionDelegate {
     func liftProvider(button: UIButton, effect: UIPointerEffect, shape: UIPointerShape) -> UIPointerStyle? {
         let style = UIPointerStyle(effect: .lift(.init(view: button)))
         return style
@@ -52,6 +56,10 @@ extension ViewController {
     }
     func verticalBeamProvider(button: UIButton, effect: UIPointerEffect, shape: UIPointerShape) -> UIPointerStyle? {
         let style = UIPointerStyle(shape: .verticalBeam(length: button.frame.size.height))
+        return style
+    }
+    func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
+        let style = UIPointerStyle(effect: .highlight(.init(view: textView)))
         return style
     }
 }
